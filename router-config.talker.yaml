@@ -1,0 +1,16 @@
+allowlist:
+  - name: "rt/chatter"
+    type: "std_msgs::msg::dds_::String_"
+
+internal_partipant:
+  type: local
+  domain: 0
+
+external_partipant:
+  type: local-discovery-server
+  id: 200
+
+  listening-addresses:
+    - ip: "172.77.0.22"
+      port: 11811
+      
