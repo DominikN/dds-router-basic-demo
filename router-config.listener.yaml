@@ -4,7 +4,7 @@ allowlist:
 
 internal_partipant:
   type: local
-  domain: 0
+  domain: 123
 
 external_partipant:
   type: local-discovery-server

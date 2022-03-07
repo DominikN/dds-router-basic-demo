@@ -1,0 +1,26 @@
+name: Test DDS Router
+
+on:
+  push:
+    branches:
+      - 'main'
+  
+jobs:
+  test-dds-router:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Pull DDS-Router image
+      run: docker compose pull
+
+    - name: Build Talker/Listener
+      run: docker compose build
+
+    - name: Start containers
+      continue-on-error: true
+      timeout-minutes: 2
+      run: docker compose up
+ 

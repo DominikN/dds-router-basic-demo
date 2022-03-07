@@ -2,6 +2,8 @@ services:
 
   listener:
     build: .
+    environment:
+      - ROS_DOMAIN_ID=123
     networks:
       listener_net:
     command: ros2 run demo_nodes_cpp listener
@@ -20,6 +22,8 @@ services:
 
   talker:
     build: .
+    environment:
+      - ROS_DOMAIN_ID=123
     networks:
       talker_net:
     command: ros2 run demo_nodes_cpp talker

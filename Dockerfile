@@ -1,4 +1,4 @@
-FROM ros:galactic
+FROM ros:galactic-ros-base
 
 # Use bash instead of sh for the RUN steps
 SHELL ["/bin/bash", "-c"]
