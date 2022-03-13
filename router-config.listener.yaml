@@ -1,19 +1,26 @@
+version: v2.0
+
 allowlist:
   - name: "rt/chatter"
     type: "std_msgs::msg::dds_::String_"
 
-internal_partipant:
-  type: local
-  domain: 123
+participants:
 
-external_partipant:
-  type: local-discovery-server
-  id: 201
-  
-  connection-addresses:
-    - id: 200
-      addresses:
-        - ip: "172.77.0.22"
-          port: 11811
+  - name: SimpleParticipant
+    kind: local
+    domain: 0
+
+  - name: ClientWAN
+    kind: local-discovery-server
+    discovery-server-guid:
+      ros-discovery-server: true
+      id: 1
+    connection-addresses:
+      - discovery-server-guid:
+          ros-discovery-server: true
+          id: 0
+        addresses:
+          - domain: dds-router-talker
+            port: 11888
 
       

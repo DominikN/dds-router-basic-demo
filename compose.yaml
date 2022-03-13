@@ -2,10 +2,8 @@ services:
 
   listener:
     build: .
-    environment:
-      - ROS_DOMAIN_ID=123
     networks:
-      listener_net:
+      - listener_net
     command: ros2 run demo_nodes_cpp listener
 
   dds-router-listener:
@@ -13,27 +11,23 @@ services:
     depends_on:
       - dds-router-talker
     networks:
-      listener_net:
-      inter_net:
-        ipv4_address: 172.77.0.11
+      - listener_net
+      - inter_net
     volumes:
       - ./router-config.listener.yaml:/config.yaml
     command: bash -c "ddsrouter -c /config.yaml -r 10"
 
   talker:
     build: .
-    environment:
-      - ROS_DOMAIN_ID=123
     networks:
-      talker_net:
+      - talker_net
     command: ros2 run demo_nodes_cpp talker
 
   dds-router-talker:
     image: husarnet/dds-router
     networks:
-      talker_net:
-      inter_net:
-        ipv4_address: 172.77.0.22
+      - talker_net
+      - inter_net
     volumes:
       - ./router-config.talker.yaml:/config.yaml
     command: bash -c "ddsrouter -c /config.yaml -r 10"
@@ -42,11 +36,5 @@ networks:
   listener_net:
   talker_net:
   inter_net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      - subnet: 172.77.0.0/24
-        gateway: 172.77.0.1
   default:
     driver: none
