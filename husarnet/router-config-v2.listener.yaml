@@ -1,5 +1,9 @@
 version: v2.0
 
+builtin:
+  - name: "rt/chatter"
+    type: "std_msgs::msg::dds_::String_"
+
 allowlist:
   - name: "rt/chatter"
     type: "std_msgs::msg::dds_::String_"
@@ -21,5 +25,3 @@ participants:
           - domain: talker  # Husarnet hostname
             port: 11811
             transport: udp
-
-      
