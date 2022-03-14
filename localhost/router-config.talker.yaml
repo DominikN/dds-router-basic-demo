@@ -1,0 +1,18 @@
+# version: v2.0
+
+allowlist:
+  - name: "rt/chatter"
+    type: "std_msgs::msg::dds_::String_"
+
+internal_partipant:
+  type: local
+  domain: 0
+
+external_partipant:
+  type: "local-discovery-server"
+  id: 200
+
+  listening-addresses:
+    - domain: dds-router-talker   # service name in compose.yaml
+      port: 11811
+      transport: udp

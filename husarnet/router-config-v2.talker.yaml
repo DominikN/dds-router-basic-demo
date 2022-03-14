@@ -13,10 +13,10 @@ participants:
   - name: ServerWAN
     kind: local-discovery-server
     discovery-server-guid:
-      ros-discovery-server: true
-      id: 0
+      id: 200
     listening-addresses:
-      - domain: dds-router-talker
-        port: 11888
+      - domain: talker  # Husarnet hostname
+        port: 11811
+        transport: udp
 
       

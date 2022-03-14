@@ -1,7 +1,9 @@
 services:
 
   listener:
-    build: .
+    build:
+      context: ../
+      dockerfile: Dockerfile
     networks:
       - listener_net
     command: ros2 run demo_nodes_cpp listener
@@ -18,7 +20,9 @@ services:
     command: bash -c "ddsrouter -c /config.yaml -r 10"
 
   talker:
-    build: .
+    build:
+      context: ../
+      dockerfile: Dockerfile
     networks:
       - talker_net
     command: ros2 run demo_nodes_cpp talker

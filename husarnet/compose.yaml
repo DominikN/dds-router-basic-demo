@@ -1,0 +1,75 @@
+services:
+
+  listener:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    networks:
+      - listener_net
+    command: ros2 run demo_nodes_cpp listener
+
+  dds-router-listener:
+    image: husarnet/dds-router
+    network_mode: service:husarnet-listener
+    depends_on:
+      - dds-router-talker
+    volumes:
+      - ./router-config.listener.yaml:/config.yaml
+    environment:
+      - DS_HOSTNAME=talker
+    command: bash -c "/wait_ds.sh && ddsrouter -c /config.yaml -r 10"
+
+  husarnet-listener:
+    image: husarnet/husarnet
+    networks:
+      - listener_net
+    devices:
+      - /dev/net/tun
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /var/lib/husarnet
+    environment:
+      - HOSTNAME=listener
+      - JOINCODE=${JOINCODE}    
+
+  talker:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    networks:
+      - talker_net
+    command: ros2 run demo_nodes_cpp talker
+
+  dds-router-talker:
+    image: husarnet/dds-router
+    network_mode: service:husarnet-talker
+    volumes:
+      - ./router-config.talker.yaml:/config.yaml
+    environment:
+      - DS_HOSTNAME=talker
+    command: bash -c "/wait_ds.sh && ddsrouter -c /config.yaml -r 10"
+
+  husarnet-talker:
+    image: husarnet/husarnet
+    networks:
+      - talker_net
+    devices:
+      - /dev/net/tun
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /var/lib/husarnet
+    environment:
+      - HOSTNAME=talker
+      - JOINCODE=${JOINCODE}  
+
+networks:
+  listener_net:
+  talker_net:
+  default:
+    driver: none
