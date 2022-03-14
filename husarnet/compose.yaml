@@ -1,5 +1,9 @@
 services:
 
+  ###################################################
+  # LISTENER containers
+  ###################################################
+
   listener:
     build:
       context: ../
@@ -14,7 +18,8 @@ services:
     depends_on:
       - dds-router-talker
     volumes:
-      - ./router-config.listener.yaml:/config.yaml
+      - ./router-config.listener.yaml:/config.yaml    # v1 works fine
+      # - ./router-config-v2.listener.yaml:/config.yaml   # v2 doesn't work
     environment:
       - DS_HOSTNAME=talker
     command: bash -c "/wait_ds.sh && ddsrouter -c /config.yaml -r 10"
@@ -35,6 +40,10 @@ services:
       - HOSTNAME=listener
       - JOINCODE=${JOINCODE}    
 
+  ###################################################
+  # TALKER containers
+  ###################################################
+
   talker:
     build:
       context: ../
@@ -47,7 +56,8 @@ services:
     image: husarnet/dds-router
     network_mode: service:husarnet-talker
     volumes:
-      - ./router-config.talker.yaml:/config.yaml
+      - ./router-config.talker.yaml:/config.yaml    # v1 works fine
+      # - ./router-config-v2.talker.yaml:/config.yaml   # v2 doesn't work
     environment:
       - DS_HOSTNAME=talker
     command: bash -c "/wait_ds.sh && ddsrouter -c /config.yaml -r 10"
@@ -67,6 +77,10 @@ services:
     environment:
       - HOSTNAME=talker
       - JOINCODE=${JOINCODE}  
+
+  ###################################################
+  # Custom Networks
+  ###################################################
 
 networks:
   listener_net:
