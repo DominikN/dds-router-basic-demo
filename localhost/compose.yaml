@@ -6,7 +6,9 @@ services:
       dockerfile: Dockerfile
     networks:
       - listener_net
-    command: ROS_DOMAIN_ID=0 ros2 run demo_nodes_cpp listener
+    environment:
+      - ROS_DOMAIN_ID=0
+    command: ros2 run demo_nodes_cpp listener
 
   dds-router-listener:
     image: husarnet/dds-router
@@ -25,7 +27,9 @@ services:
       dockerfile: Dockerfile
     networks:
       - talker_net
-    command: ROS_DOMAIN_ID=1 ros2 run demo_nodes_cpp talker
+    environment:
+      - ROS_DOMAIN_ID=1
+    command: ros2 run demo_nodes_cpp talker
 
   dds-router-talker:
     image: husarnet/dds-router
