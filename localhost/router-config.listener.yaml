@@ -1,20 +1,31 @@
+version: v2.0
+
+# comment for a dynamic topic discovery
+# builtin:
+#   - name: "rt/chatter"
+#     type: "std_msgs::msg::dds_::String_"
+
 allowlist:
-  - name: "rt/chatter"
-    type: "std_msgs::msg::dds_::String_"
+  # - name: "rt/chatter"
+  #   type: "std_msgs::msg::dds_::String_"
+  - name: "rt/*"
 
-internal_partipant:
-  type: local
-  domain: 0
+participants:
 
-external_partipant:
-  type: local-discovery-server
-  id: 202
+  - name: SimpleParticipant
+    kind: local
+    domain: 0
 
-  connection-addresses:
-    - id: 200
-      addresses:
-        - domain: dds-router-talker   # service name in compose.yaml
-          port: 11811
-          transport: udp
+  - name: ServerDSParticipant
+    kind: local-discovery-server
+    discovery-server-guid:
+      id: 202
+    connection-addresses:
+      - discovery-server-guid:
+          id: 200
+        addresses:
+          - domain: dds-router-talker  # service name from compose.yaml 
+            port: 11811
+            transport: udp
 
       
