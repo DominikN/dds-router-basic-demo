@@ -16,7 +16,7 @@ participants:
     kind: local
     domain: 0
 
-  - name: ServerDSParticipant
+  - name: ClientDSParticipant
     kind: local-discovery-server
     discovery-server-guid:
       id: 202
